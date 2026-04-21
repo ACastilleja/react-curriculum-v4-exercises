@@ -15,7 +15,7 @@ export default function BugEffectLoop() {
 
   useEffect(() => {
     setCount(count + 1);
-  });
+  }, []); // Adding an empty array stops the infinite render loop
 
   return <p>Bug 1 Count: {count}</p>;
 }
