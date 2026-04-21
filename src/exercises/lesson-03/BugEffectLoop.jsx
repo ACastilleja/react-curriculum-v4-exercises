@@ -21,4 +21,4 @@ export default function BugEffectLoop() {
 }
 
 // Explanation:
-// (Write your explanation here)
+// (Without a second argument the useEffect runs at every single render which is triggered setCount(cont+1) and it continues causing an ifinite loop.)
