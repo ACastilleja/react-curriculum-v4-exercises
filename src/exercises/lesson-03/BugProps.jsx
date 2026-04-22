@@ -29,4 +29,4 @@ export default function BugProps({ name = 'friend' }) {
 }
 
 // Explanation:
-// (Write your explanation here)
+// I needed to import useState and use it otherwise react did not know what to do with the javascript, which also had to be rewriten to be used in React.)
