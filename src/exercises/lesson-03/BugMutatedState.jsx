@@ -14,7 +14,9 @@ export default function BugMutatedState() {
 
   function handleAdd() {
     count++;
-    setCount(count);
+    //setCount(count);
+    setCount((prevCount) => prevCount + 1);
+    //added prevCount so each click starts at the previous count
   }
 
   return (
@@ -26,4 +28,4 @@ export default function BugMutatedState() {
 }
 
 // Explanation:
-// (Write your explanation here)
+// (I used functional updating by using prevCount so the count variable will always be the most current. )
