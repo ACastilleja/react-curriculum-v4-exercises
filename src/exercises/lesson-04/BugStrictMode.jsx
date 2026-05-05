@@ -7,9 +7,10 @@ export default function BugStrictMode() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setInterval(() => {
-      setCount((c) => c + 1);
+    const intervalID = setInterval(() => {
+      setCount((count) => count + 1);
     }, 1000);
+    return () => clearInterval(intervalID);
   }, []);
 
   return (
@@ -21,3 +22,5 @@ export default function BugStrictMode() {
 }
 
 // Write your explanation of how StrictMode helps us catch this bug
+// Since Strict mode double runs our component twice to catch memory leak we can see by the doubled increase in count number that
+// we have an interval running in the background adding an additional +1. So we stop the background interval by using a cleanup function.
