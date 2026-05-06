@@ -18,7 +18,8 @@ export default function SnackForm({
       setName(editingSnack.name);
       setRating(editingSnack.rating);
     } else {
-      (setName(''), setRating(''));
+      setName('');
+      setRating('');
     }
     setTouched({ name: false, rating: false });
   }, [editingSnack]);
