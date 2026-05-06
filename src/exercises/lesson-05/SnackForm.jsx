@@ -25,17 +25,23 @@ export default function SnackForm({
 
   function handleSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const name = formData.get('name');
-    const rating = formData.get('rating');
+
+    setTouched({ name: true, rating: true });
+
+    if (!validateName() || !validateRating()) {
+      return;
+    }
 
     if (isEditing) {
       updateSnack(editingSnack.id, name, rating);
     } else {
       addSnack(name, rating);
-      e.target.reset();
+      setName('');
+      setRating('');
+      setTouched({ name: false, rating: false });
     }
   }
+
   const validateName = () => name.trim().length > 0;
 
   const validateRating = () => rating !== '';
