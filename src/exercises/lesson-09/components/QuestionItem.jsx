@@ -26,7 +26,8 @@ export function QuestionItem({ question }) {
       dispatch({ type: 'SET_EDITING_QUESTION', payload: null });
       setWorkingText(question.question);
     } else {
-      dispatch({ type: 'SET_EDITING_QUESITON', payload: question.id });
+      dispatch({ type: 'SET_EDITING_QUESTION', payload: question.id });
+      setWorkingText(question.question);
     }
   };
 
@@ -109,11 +110,11 @@ export function QuestionItem({ question }) {
                       }
                     />
                     <button
-                      className={style['delete-option-btn']}
+                      className={styles['delete-option-btn']}
                       disabled={question.options.length <= 2}
                       onClick={() =>
                         dispatch({
-                          tupe: 'DELETE_OPTION_FROM_QUESTION',
+                          type: 'DELETE_OPTION_FROM_QUESTION',
                           payload: {
                             questionId: question.id,
                             optionIndex: index,
@@ -122,7 +123,7 @@ export function QuestionItem({ question }) {
                       }
                     >
                       {' '}
-                      Delete{' '}
+                      Delete
                     </button>
                   </div>
                 ) : (

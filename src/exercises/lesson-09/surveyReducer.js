@@ -68,7 +68,10 @@ export function surveyReducer(state, action) {
         ...state,
         ui: {
           ...state.ui,
-          editingQuestionId: action.payload.questionId,
+          editingQuestionId:
+            action.payload && typeof action.payload === 'object'
+              ? action.payload.questionId
+              : action.payload,
         },
       };
 
@@ -98,7 +101,7 @@ export function surveyReducer(state, action) {
       return {
         ...state,
         questions: state.questions.map((q) =>
-          q.id === action.payload.questionId
+          q.id === action.payload.id
             ? { ...q, question: action.payload.newText }
             : q
         ),
@@ -107,13 +110,11 @@ export function surveyReducer(state, action) {
     case 'DELETE_QUESTION':
       return {
         ...state,
-        questions: state.questions.filter(
-          (q) => q.id !== action.payload.questionId
-        ),
+        questions: state.questions.filter((q) => q.id !== action.payload.id),
         ui: {
           ...state.ui,
           editingQuestionId:
-            state.ui.editingQuestionId === action.payload.questionId
+            state.ui.editingQuestionId === action.payload.id
               ? null
               : state.ui.editingQuestionId,
         },
