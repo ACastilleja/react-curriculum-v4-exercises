@@ -68,7 +68,10 @@ export function surveyReducer(state, action) {
         ...state,
         ui: {
           ...state.ui,
-          editingQuestionId: action.payload.questionId,
+          editingQuestionId:
+            action.payload && typeof action.payload === 'object'
+              ? action.payload.questionId
+              : action.payload,
         },
       };
 
@@ -95,14 +98,81 @@ export function surveyReducer(state, action) {
     // ===== STUDENT IMPLEMENTATION TASKS =====
 
     case 'UPDATE_QUESTION_TEXT':
-      // TODO: Implement this action
-      console.log('TODO: Implement UPDATE_QUESTION_TEXT action');
-      return state;
+      return {
+        ...state,
+        questions: state.questions.map((q) =>
+          q.id === action.payload.id
+            ? { ...q, question: action.payload.newText }
+            : q
+        ),
+      };
 
     case 'DELETE_QUESTION':
-      // TODO: Implement this action
-      console.log('TODO: Implement DELETE_QUESTION action');
-      return state;
+      return {
+        ...state,
+        questions: state.questions.filter((q) => q.id !== action.payload.id),
+        ui: {
+          ...state.ui,
+          editingQuestionId:
+            state.ui.editingQuestionId === action.payload.id
+              ? null
+              : state.ui.editingQuestionId,
+        },
+      };
+
+    case 'ADD_OPTION_TO_QUESTION':
+      return {
+        ...state,
+        questions: state.questions.map((q) => {
+          if (
+            q.id === action.payload.questionId &&
+            q.type === QUESTION_TYPES.MULTIPLE_CHOICE
+          ) {
+            return {
+              ...q,
+              options: [...(q.options || []), action.payload.optionText],
+            };
+          }
+          return q;
+        }),
+      };
+
+    case 'UPDATE_OPTION_TEXT':
+      return {
+        ...state,
+        questions: state.questions.map((q) => {
+          if (q.id === action.payload.questionId) {
+            return {
+              ...q,
+              options: q.options.map((option, index) =>
+                index === action.payload.optionIndex
+                  ? action.payload.newText
+                  : option
+              ),
+            };
+          }
+          return q;
+        }),
+      };
+
+    case 'DELETE_OPTION_FROM_QUESTION':
+      return {
+        ...state,
+        questions: state.questions.map((q) => {
+          if (q.id === action.payload.questionId) {
+            if (q.options && q.options.length <= 2) {
+              return q;
+            }
+            return {
+              ...q,
+              options: q.options.filter(
+                (_, index) => index !== action.payload.optionIndex
+              ),
+            };
+          }
+          return q;
+        }),
+      };
 
     default:
       return state;
