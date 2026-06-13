@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export default function Home({ products }) {
   return (
@@ -41,6 +41,18 @@ export default function Home({ products }) {
             <p style={{ margin: 0 }}>
               <strong>${p.price.toFixed(2)}</strong>
             </p>
+            <Link
+              to={`/lessons/lesson-10/products/${p.id}`}
+              style={{
+                display: 'inline-block',
+                marginTop: 8,
+                color: '#0066cc',
+                textDecoration: 'none',
+                fontWeight: 600,
+              }}
+            >
+              View Details &rarr;
+            </Link>
           </article>
         ))}
       </div>
